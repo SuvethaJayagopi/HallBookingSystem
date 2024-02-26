@@ -9,7 +9,6 @@ import com.halldetails.Hall;
 import com.halldetails.HallOperations;
 
 public class Guest implements HallViewer {
-    // You can add fields and methods specific to the Guest class if needed
 
 	@Override
     public void viewAllHalls() {

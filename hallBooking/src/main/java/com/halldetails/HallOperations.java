@@ -106,14 +106,17 @@ public class HallOperations {
 
 
 	public void displayAllHalls(List<Hall> halls) {
-	    System.out.println("-------------------------------------------------------------------------------------------------------------------");
-	    System.out.printf("| %-5s | %-20s | %-10s | %-15s | %-15s | %-15s | %-10s | %-15s |\n", "ID", "Name", "Capacity", "Price per Hour", "Facilities", "Event Type", "Availability", "Location");
-	    System.out.println("-------------------------------------------------------------------------------------------------------------------");
+	    System.out.println("----------------------------------------------------------------------------------------------------------------------------");
+	    System.out.printf("| %-5s | %-20s | %-10s | %-15s | %-15s | %-15s | %-13s | %-7s |\n", "ID", "Name", "Capacity", "Price per Hour", "Facilities", "Event Type", "Availability", "Location");
+	    System.out.println("----------------------------------------------------------------------------------------------------------------------------");
 	    for (Hall hall : halls) {
-	        System.out.printf("| %-5d | %-20s | %-10d | %-15.2f | %-15s | %-15s | %-10s | %-15s |\n", hall.getId(), hall.getName(), hall.getCapacity(), hall.getPricePerHour(), hall.getFacilities(), hall.getEventType(), hall.getAvailability(), hall.getLocation());
+	        System.out.printf("| %-5d | %-20s | %-10d | $%-14.2f | %-15s | %-15s | %-13s | %-7s |\n", hall.getId(), hall.getName(), hall.getCapacity(), hall.getPricePerHour(), hall.getFacilities(), hall.getEventType(), hall.getAvailability(), hall.getLocation());
 	    }
-	    System.out.println("-------------------------------------------------------------------------------------------------------------------");
+	    System.out.println("----------------------------------------------------------------------------------------------------------------------------");
 	}
+
+
+
 
 
 

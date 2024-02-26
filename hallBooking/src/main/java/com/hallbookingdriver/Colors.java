@@ -9,4 +9,6 @@ public class Colors {
 	public static String PURPLE = "\u001B[35m";
 	public static String CYAN = "\u001B[36m";
 	public  static String WHITE = "\u001B[38;5;50m";
+    public static String PINK = "\u001B[95m"; // Pink color
+
 }

@@ -58,21 +58,21 @@ public class Card extends Payment {
     }
 
     // Validate card number using regular expression
-    private boolean validateCardNumber(String cardNumber) {
+    public static boolean validateCardNumber(String cardNumber) {
         // Card number format: 16 digits
         String regex = "\\d{16}";
         return cardNumber.matches(regex);
     }
 
     // Validate expiry date using regular expression
-    private boolean validateExpiryDate(String expiryDate) {
+    public static boolean validateExpiryDate(String expiryDate) {
         // Expiry date format: MM/YY
         String regex = "(0[1-9]|1[0-2])/\\d{2}";
         return expiryDate.matches(regex);
     }
 
     // Validate CVV using regular expression
-    private boolean validateCVV(String cvv) {
+    public static boolean validateCVV(String cvv) {
         // CVV format: 3 digits
         String regex = "\\d{3}";
         return cvv.matches(regex);
@@ -80,6 +80,22 @@ public class Card extends Payment {
 
     // Validate card details
     private boolean validateCard() {
-        return validateCardNumber(cardNumber) && validateExpiryDate(expiryDate) && validateCVV(cvv);
+        if (!validateCardNumber(cardNumber)) {
+            System.out.println("Invalid card number. Please enter a valid card number.");
+            return false;
+        }
+
+        if (!validateExpiryDate(expiryDate)) {
+            System.out.println("Invalid expiry date. Please enter a valid expiry date in MM/YY format.");
+            return false;
+        }
+
+        if (!validateCVV(cvv)) {
+            System.out.println("Invalid CVV. Please enter a valid 3-digit CVV.");
+            return false;
+        }
+
+        return true;
     }
+
 }

@@ -148,6 +148,33 @@ public class BookingOperations {
             return false;
         }
     }
+    
+    public boolean cancelBooking(Booking booking) {
+        try (Connection connection = ConnectionClass.getConnection()) {
+            String updateBookingSql = "UPDATE SUVETHA.bookings SET status = ? WHERE bookingid = ?";
+            String updateHallSql = "UPDATE SUVETHA.halls SET availability = 'available' WHERE id = ?";
+
+            try (PreparedStatement updateBookingStatement = connection.prepareStatement(updateBookingSql);
+                 PreparedStatement updateHallStatement = connection.prepareStatement(updateHallSql)) {
+
+                // Update booking status to CANCELLED
+                updateBookingStatement.setString(1, BookingStatus.CANCELLED.toString());
+                updateBookingStatement.setInt(2, booking.getBookingId());
+                int bookingRowsAffected = updateBookingStatement.executeUpdate();
+
+                // Update hall availability to 'available'
+                updateHallStatement.setInt(1, booking.getHallId());
+                int hallRowsAffected = updateHallStatement.executeUpdate();
+
+                // Return true if both updates were successful
+                return bookingRowsAffected == 1 && hallRowsAffected == 1;
+            }
+        } catch (SQLException e) {
+            System.out.println(Colors.RED + "Error cancelling booking: " + e.getMessage() + Colors.RESET);
+            return false;
+        }
+    }
+
 
     private boolean isBookingConflict(Booking booking) {
         try (Connection connection = ConnectionClass.getConnection()) {
@@ -226,7 +253,7 @@ public class BookingOperations {
 
     public void displayAllBookings(List<Booking> bookings) {
         System.out.println("-------------------------------------------------------------------------------------------------------------------");
-        System.out.printf("| %-10s | %-10s | %-10s | %-20s | %-20s | %-10s |\n", "Booking ID", "Hall ID", "Username", "Start Time", "End Time", "Status");
+       System.out.printf("| %-10s | %-10s | %-10s | %-20s | %-20s | %-10s |\n", "Booking ID", "Hall ID", "Username", "Start Time", "End Time", "Status");
         System.out.println("-------------------------------------------------------------------------------------------------------------------");
         for (Booking booking : bookings) {
             System.out.printf("| %-10d | %-10d | %-10s | %-20s | %-20s | %-10s |\n", booking.getBookingId(), booking.getHallId(), booking.getUsername(), booking.getStartTime(), booking.getEndTime(), booking.getStatus());

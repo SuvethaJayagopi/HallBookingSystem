@@ -11,9 +11,6 @@
 */
 package com.hallbookingdriver;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -21,6 +18,8 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import com.bookingdetails.BillingOperations;
@@ -48,21 +47,21 @@ public class Driver {
 	private static Booking booking;
 
     public static void main(String[] args) {
-    	    System.out.println("*****************************************");
-    	    System.out.println("*      Welcome to the Hall Booking      *");
-    	    System.out.println("*               System!                 *");
-    	    System.out.println("*****************************************");
-    	    
+    	System.out.println(Colors.PINK + "*****************************************");
+    	System.out.println("*      Welcome to CelebrationHub        *");
+    	System.out.println("*         Hall Booking System!          *");
+    	System.out.println("*****************************************" + Colors.RESET);
+
     	    
     	    while (true) {
     	    	try {
-                System.out.println("*****************************");
+                System.out.println(Colors.GREEN+"*****************************");
                 System.out.println("*         MENU              *");
                 System.out.println("*       1. Login            *");
                 System.out.println("*       2. Register         *");
                 System.out.println("*       3. Guest            *");
                 System.out.println("*       4. Exit             *");
-                System.out.println("*****************************");
+                System.out.println("*****************************"+Colors.RESET);
                 System.out.print("Choose an option: ");
                 int option = scanner.nextInt();
                 scanner.nextLine();
@@ -104,13 +103,13 @@ public class Driver {
 
     private static void login() {
     	boolean backToMainMenu = false;
-    	System.out.println("*****************************");
+    	System.out.println(Colors.GREEN+"*****************************");
         System.out.println("*         MENU              *");
         System.out.println("*     1. Admin Login        *");
         System.out.println("*     2. User Login         *");
         System.out.println("*     3. Back to Main Menu  *");
         System.out.println("*     4. Exit               *");
-        System.out.println("*****************************");
+        System.out.println("*****************************"+Colors.RESET);
         System.out.print("Choose an option: ");
         int option = scanner.nextInt();
         scanner.nextLine(); // Consume newline
@@ -161,7 +160,7 @@ public class Driver {
             System.out.println(Colors.BLUE + "User login successful." + Colors.RESET);
             String userName = user.getName(); // Fetch user's name from the Person class
             if (userName != null) {
-                System.out.println("Welcome, " + userName + "!");
+                System.out.println(Colors.PINK+"Welcome, " + userName + "!"+Colors.RESET);
             } else {
                 System.out.println("Welcome, User!"); // Default welcome message if name retrieval fails
             }
@@ -175,12 +174,12 @@ public class Driver {
     
     private static void register() {
         boolean backToMainMenu = false;
-    	System.out.println("******************************");
+    	System.out.println(Colors.GREEN+"******************************");
         System.out.println("*     1. Admin Register      *");
         System.out.println("*     2. User Register       *");
         System.out.println("*     3. Back to Main Menu  *");
         System.out.println("*     4. Exit               *");
-    	System.out.println("******************************");
+    	System.out.println("******************************"+Colors.RESET);
         System.out.print("Choose an option: ");
         int option = scanner.nextInt();
         scanner.nextLine(); // Consume newline
@@ -224,7 +223,7 @@ public class Driver {
     private static void adminOptions() {
     	try {
         while (true) {
-        	System.out.println("***********************************");
+        	System.out.println(Colors.GREEN+"***********************************");
             System.out.println("*         Admin Options           *");
             System.out.println("*      1. View All Halls          *");
             System.out.println("*      2. Add Hall                *");
@@ -235,7 +234,7 @@ public class Driver {
             System.out.println("*      7. Update Profile          *");
             System.out.println("*      8. Update Halls            *");
             System.out.println("*      9. Logout                  *");
-            System.out.println("***********************************");
+            System.out.println("***********************************"+Colors.RESET);
             System.out.print("Choose an option: ");
             int option = scanner.nextInt();
             scanner.nextLine(); // Consume newline
@@ -291,7 +290,7 @@ public class Driver {
     private static void userOptions() {
     	try {
         while (true) {
-        	System.out.println("***********************************");
+        	System.out.println(Colors.GREEN+"***********************************");
             System.out.println("*          User Options           *");
             System.out.println("*       1. View All Halls         *");
             System.out.println("*       2. Request Booking        *");
@@ -300,7 +299,7 @@ public class Driver {
             System.out.println("*       5. Show Billing           *");
             System.out.println("*       6. Update Profile         *"); 
             System.out.println("*       7. Logout                 *");
-            System.out.println("***********************************");
+            System.out.println("***********************************"+Colors.RESET);
             System.out.print("Choose an option: ");
             int option = scanner.nextInt();
             scanner.nextLine(); // Consume newline
@@ -339,13 +338,20 @@ public class Driver {
 
                 	    boolean choosingPaymentMethod = true;
                 	    while (choosingPaymentMethod) {
-                	        System.out.println("*****************************");
+                	        System.out.println(Colors.GREEN+"*****************************");
                 	        System.out.println("*   Choose Payment Method   *");
                 	        System.out.println("*         1. Cash           *");
                 	        System.out.println("*         2. Card           *");
                 	        System.out.println("*         3. Back           *");
-                	        System.out.println("*****************************");
+                	        System.out.println("*****************************"+Colors.RESET);
                 	        System.out.print("Enter your choice: ");
+                	        
+                	        if (!scanner.hasNextInt()) {
+                	            System.out.println(Colors.RED + "Error: Input should be an integer." + Colors.RESET);
+                	            scanner.nextLine(); // Consume the invalid input
+                	            continue;
+                	        }
+                	        
                 	        int paymentMethodChoice = scanner.nextInt();
                 	        scanner.nextLine(); // Consume newline
 
@@ -357,19 +363,41 @@ public class Driver {
                 	                choosingPaymentMethod = false;
                 	                break;
                 	            case 2:
-                	                // Process card payment...
+                	                // Process card payment
                 	                System.out.println("Enter card details:");
-                	                System.out.print("Card number: ");
-                	                String cardNumber = scanner.nextLine();
-                	                System.out.print("Expiry date (MM/YY): ");
-                	                String expiryDate = scanner.nextLine();
-                	                System.out.print("CVV: ");
-                	                String cvv = scanner.nextLine();
+                	                String cardNumber;
+                	                String expiryDate;
+                	                String cvv;
 
-                	                Payment cardPayment = new Card(totalAmount, cardNumber, expiryDate, cvv); // Pass totalAmount as the billing amount and card details
+                	                do {
+                	                    System.out.print("Card number: ");
+                	                    cardNumber = scanner.nextLine();
+                	                    if (!Card.validateCardNumber(cardNumber)) {
+                	                        System.out.println(Colors.RED+"Invalid card number. Please enter a valid card number."+Colors.RESET);
+                	                    }
+                	                } while (!Card.validateCardNumber(cardNumber));
+
+                	                do {
+                	                    System.out.print("Expiry date (MM/YY): ");
+                	                    expiryDate = scanner.nextLine();
+                	                    if (!Card.validateExpiryDate(expiryDate)) {
+                	                        System.out.println(Colors.RED +"Invalid expiry date. Please enter a valid expiry date in MM/YY format."+Colors.RESET);
+                	                    }
+                	                } while (!Card.validateExpiryDate(expiryDate));
+
+                	                do {
+                	                    System.out.print("CVV: ");
+                	                    cvv = scanner.nextLine();
+                	                    if (!Card.validateCVV(cvv)) {
+                	                        System.out.println(Colors.RED+"Invalid CVV. Please enter a valid 3-digit CVV."+Colors.RESET);
+                	                    }
+                	                } while (!Card.validateCVV(cvv));
+
+                	                Payment cardPayment = new Card(totalAmount, cardNumber, expiryDate, cvv);
                 	                ((Card) cardPayment).processPayment(); // Process payment
                 	                choosingPaymentMethod = false;
                 	                break;
+
                 	            case 3:
                 	                // User wants to go back to see the bill again
                 	                choosingPaymentMethod = false;
@@ -384,12 +412,12 @@ public class Driver {
                 	    if (proceedWithPayment) {
                 	        boolean selectingNotificationPreference = true;
                 	        while (selectingNotificationPreference) {
-                	            System.out.println("***************************************");
+                	            System.out.println(Colors.GREEN+"***************************************");
                 	            System.out.println("*  Select Notification Preference     *");
                 	            System.out.println("*           1. SMS                    *");
                 	            System.out.println("*           2. Email                  *");
                 	            System.out.println("*           3. Back                   *");
-                	            System.out.println("***************************************");
+                	            System.out.println("***************************************"+Colors.RESET);
                 	            System.out.print("Enter your choice: ");
                 	            int notificationPreference = scanner.nextInt();
                 	            scanner.nextLine(); // Consume newline
@@ -398,13 +426,15 @@ public class Driver {
                 	            case 1:
                 	                // Send SMS notification
                 	                Notification smsNotification = new SMSNotification(1, "Thank you for booking! Enjoy your moments.");
-                	                smsNotification.sendNotification();
+                	                Thread smsThread = new Thread(smsNotification);
+                	                smsThread.start();
                 	                selectingNotificationPreference = false;
                 	                break;
                 	            case 2:
                 	                // Send email notification
                 	                Notification emailNotification = new EmailNotification(1, "Thank you for booking! Enjoy your moments.");
-                	                emailNotification.sendNotification();
+                	                Thread emailThread = new Thread(emailNotification);
+                	                emailThread.start();
                 	                selectingNotificationPreference = false;
                 	                break;
                 	            case 3:
@@ -412,6 +442,7 @@ public class Driver {
                 	                selectingNotificationPreference = false;
                 	                proceedWithPayment = false;
                 	                break;
+
                 	            default:
                 	                System.out.println(Colors.RED + "Invalid notification preference." + Colors.RESET);
                 	                break;
@@ -456,20 +487,31 @@ public class Driver {
 
     private static void requestBooking() {
         HallOperations hallOperations = new HallOperations();
-        System.out.println("Enter your preferred location:");
-        String preferredLocation = scanner.nextLine();
+        while (true) {
+            System.out.println("Enter your preferred location:");
+            String preferredLocation = scanner.nextLine();
 
-        // Get all halls from the database
-        List<Hall> allHalls = hallOperations.getAllHalls();
+            // Get all halls from the database
+            List<Hall> allHalls = hallOperations.getAllHalls();
 
-        // Filter the halls based on the preferred location
-        List<Hall> filteredHalls = allHalls.stream()
-                .filter(hall -> hall.getLocation().equalsIgnoreCase(preferredLocation))
-                .collect(Collectors.toList());
+            // Filter the halls based on the preferred location
+            List<Hall> filteredHalls = allHalls.stream()
+                    .filter(hall -> hall.getLocation().equalsIgnoreCase(preferredLocation))
+                    .collect(Collectors.toList());
 
-        // Display the filtered halls to the user
-        System.out.println("Halls available at " + preferredLocation + ":");
-        hallOperations.displayAllHalls(filteredHalls);
+            // If filteredHalls is empty, display an error message and continue to prompt for location
+            if (filteredHalls.isEmpty()) {
+                System.out.println("Location not found. Please try again.");
+                continue;
+            }
+
+            // Display the filtered halls to the user
+            System.out.println("Halls available at " + preferredLocation + ":");
+            hallOperations.displayAllHalls(filteredHalls);
+
+            // If halls are found for the location, break out of the loop
+            break;
+        }
         int hallId;
         String username;
         while (true) {
@@ -477,20 +519,31 @@ public class Driver {
             	System.out.println("Enter your Name:");
                 username = scanner.nextLine();
             	
-                System.out.println("Enter Hall ID:");
-                hallId = Integer.parseInt(scanner.nextLine());
-                
-                // Check if the entered Hall ID is valid
-                if (!hallOperations.isHallIdValid(hallId)) {
-                    System.out.println(Colors.RED+"Error: Hall ID does not exist. Please try again."+Colors.RESET);
+                if (!validateName(username)) {
+                    System.out.println(Colors.RED + "Error: Name must contain only alphabetic characters and have a minimum length of 5 characters. Please try again." + Colors.RESET);
                     continue;
                 }
                 
+                while (true) { // Nested loop for Hall ID input
+                    System.out.println("Enter Hall ID:");
+                    hallId = Integer.parseInt(scanner.nextLine());
+
+                    // Check if the entered Hall ID is valid
+                    if (!hallOperations.isHallIdValid(hallId)) {
+                        System.out.println(Colors.RED + "Error: Hall ID does not exist. Please try again." + Colors.RESET);
+                        continue; // Continue to the next iteration if Hall ID is invalid
+                    }
+
+                    break; // Exit the nested loop if Hall ID is valid
+                }
+
                 break; // Exit the loop if input is valid
             } catch (NumberFormatException e) {
                 System.out.println(Colors.RED+"Error: Hall ID must be a valid integer. Please try again."+Colors.RESET);
             }
         }
+        
+        
         LocalDateTime startDate;
         LocalDateTime endDate;
         while (true) {
@@ -531,7 +584,14 @@ public class Driver {
     }
 
 
- // Call the sendCancellationNotification method when a booking is cancelled
+    private static boolean validateName(String name) {
+        String regex = "^[a-zA-Z]{5,}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(name);
+        return matcher.matches();
+    }
+
+// Call the sendCancellationNotification method when a booking is cancelled
     private static void cancelBooking() {
         Scanner scanner = new Scanner(System.in);
         BookingOperations bookingOperations = new BookingOperations();
@@ -544,7 +604,7 @@ public class Driver {
                 
                 // Check if the input is an integer
                 if (!input.matches("\\d+")) {
-                    System.out.println("Error: Booking ID must be an integer. Please try again.\033[0m");
+                    System.out.println("Error: Booking ID must be an integer. Please try again.");
                     continue;
                 }
                 
@@ -552,16 +612,24 @@ public class Driver {
                 
                 // Check if the entered Booking ID is valid
                 if (!bookingOperations.isBookingIdValid(bookingId)) {
-                    System.out.println("Error: Booking ID does not exist. Please try again.\033[0m");
+                    System.out.println("Error: Booking ID does not exist. Please try again.");
                     continue;
                 }
                 
+                // Cancel the booking
+                if (bookingOperations.cancelBooking(bookingId)) {
+                    System.out.println("Booking with ID " + bookingId + " has been cancelled successfully.");
+                } else {
+                    System.out.println("Error: Failed to cancel booking with ID " + bookingId);
+                }
+
                 break; // Exit the loop if input is valid
             } catch (NumberFormatException e) {
-                System.out.println("Error: Invalid input. Please enter a valid Booking ID.\033[0m");
+                System.out.println("Error: Invalid input. Please enter a valid Booking ID.");
             }
         }
-     }
+    }
+
 
 
     private static void displayAllBookings() {

@@ -9,7 +9,7 @@ public class SMSNotification extends Notification {
     @Override
     public void sendNotification() {
         // Logic to send SMS notification
-        System.out.println("Sending SMS Notification (ID: " + getNotificationId() + "): " + getMessage());
+        System.out.println("Sending SMS Notification : " + getMessage());
     }
 
     @Override

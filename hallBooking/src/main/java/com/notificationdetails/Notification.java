@@ -1,6 +1,6 @@
 package com.notificationdetails;
 
-public abstract class Notification {
+public abstract class Notification implements Runnable {
     private int notificationId;
     private String message;
 
@@ -34,5 +34,10 @@ public abstract class Notification {
     public void sendCancellationNotification() {
         // Default implementation for cancellation notification
         System.out.println("Notification (ID: " + notificationId + ") cancelled.");
+    }
+    
+    @Override
+    public void run() {
+        sendNotification();
     }
 }

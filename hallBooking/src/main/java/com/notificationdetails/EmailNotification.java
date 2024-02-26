@@ -9,7 +9,7 @@ public class EmailNotification extends Notification {
     @Override
     public void sendNotification() {
         // Logic to send email notification
-        System.out.println("Sending Email Notification (ID: " + getNotificationId() + "): " + getMessage());
+        System.out.println("Sending Email Notification : " + getMessage());
     }
 
     @Override

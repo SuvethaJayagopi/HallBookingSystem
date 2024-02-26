@@ -10,6 +10,7 @@
 package com.userdetails;
 
 import java.sql.Connection;
+import com.bookingdetails.BookingIdComparator;
 import com.hallbookingdriver.HallIdComparator;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -432,9 +433,11 @@ public class Admin extends Person implements HallViewer {
     public static void viewAllBookings() {
         BookingOperations bookingOperations = new BookingOperations();
         List<Booking> allBookings = bookingOperations.getAllBookings();
+        Collections.sort(allBookings, new BookingIdComparator()); // Sorting the bookings list
         System.out.println("**********All Bookings**********");
         bookingOperations.displayAllBookings(allBookings);
     }
+
 
 
     
